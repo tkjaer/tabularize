@@ -61,7 +61,7 @@ func (t *Table) padCell(cell string, maxLength int) string {
 
 // Tabluarize takes a 2D slice of strings and returns a string
 // representation of the data in a table format.
-func (t *Table) Tabularize(data [][]string) string {
+func (t *Table) Render(data [][]string) string {
 	if len(data) == 0 {
 		return ""
 	}
