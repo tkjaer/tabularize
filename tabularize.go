@@ -75,7 +75,11 @@ func (t *Table) Render(data [][]string) string {
 			sb.WriteString("|")
 		}
 		for col, cell := range rowdata {
-			sb.WriteString(t.padCell(cell, maxLengths[col]))
+			paddedCell := t.padCell(cell, maxLengths[col])
+			if col == len(maxLengths)-1 && !t.useTableBorders {
+				paddedCell = strings.TrimRight(paddedCell, " ")
+			}
+			sb.WriteString(paddedCell)
 			if t.useColumnSeparators && (col < len(maxLengths)-1 || t.useTableBorders) {
 				sb.WriteString("|")
 			} else if col < len(maxLengths)-1 {
