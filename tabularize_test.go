@@ -32,8 +32,8 @@ func TestRender_NoBordersOrSeparators(t *testing.T) {
 		{"Alice", "30", "New York"},
 		{"Bob", "25", "Los Angeles"},
 	}
-	expected := `Name  Age City       
-Alice 30  New York   
+	expected := `Name  Age City
+Alice 30  New York
 Bob   25  Los Angeles
 `
 	table.useColumnSeparators = false
@@ -85,15 +85,33 @@ func TestRender_HeaderSeparator(t *testing.T) {
 		{"Alice", "30", "New York"},
 		{"Bob", "25", "Los Angeles"},
 	}
-	expected := ` Name  | Age | City        
+	expected := ` Name  | Age | City
 -------+-----+-------------
- Alice | 30  | New York    
- Bob   | 25  | Los Angeles 
+ Alice | 30  | New York
+ Bob   | 25  | Los Angeles
 `
 	table.useTableBorders = false
 	table.useHeaderSeparator = true
 	result := table.Render(data)
 	if result != expected {
 		t.Errorf("Expected:\n%s\nGot:\n%s", expected, result)
+	}
+}
+
+func TestRender_UnpaddedFinalColumnWithoutBorders(t *testing.T) {
+	table := NewTable()
+	data := [][]string{
+		{"Name", "Note"},
+		{"Alice", ""},
+		{"Bob", "Hello"},
+	}
+	expected := ` Name  | Note
+ Alice |
+ Bob   | Hello
+`
+	table.useHeaderSeparator = false
+	result := table.Render(data)
+	if result != expected {
+		t.Errorf("Expected:\n%q\nGot:\n%q", expected, result)
 	}
 }
